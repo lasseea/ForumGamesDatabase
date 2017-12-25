@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTeamsTable extends Migration
+class CreateHostsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,19 +13,17 @@ class CreateTeamsTable extends Migration
      */
     public function up()
     {
-        Schema::create('teams', function (Blueprint $table) {
+        Schema::create('hosts', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('game_id');
             $table->string('name');
-            $table->unsignedInteger('team_type_id');
-            $table->unsignedInteger('result_type_id');
+            $table->unsignedInteger('game_id');
+            $table->unsignedInteger('host_type_id');
             $table->timestamps();
 
             $table->foreign('game_id')->references('id')->on('games')->onDelete('cascade');
-            $table->foreign('team_type_id')->references('id')->on('team_types')->onDelete('cascade');
-            $table->foreign('result_type_id')->references('id')->on('result_types')->onDelete('cascade');
+            $table->foreign('host_type_id')->references('id')->on('host_types')->onDelete('cascade');
 
-            $table->unique(['game_id', 'name']);
+            $table->unique(['game_id', 'host_type_id']);
         });
     }
 
@@ -36,6 +34,6 @@ class CreateTeamsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('teams');
+        Schema::dropIfExists('hosts');
     }
 }

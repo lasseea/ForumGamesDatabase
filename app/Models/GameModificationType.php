@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class GameModificationType extends Model
 {
     protected $fillable = [
-        'name'
+        'name', 'description'
     ];
 
     public function gameModifications() {

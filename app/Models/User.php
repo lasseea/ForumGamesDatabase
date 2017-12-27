@@ -27,6 +27,10 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function setPasswordAttribute(String $password) {
+        $this->attributes['password'] = bcrypt($password);
+    }
+
     public function gameSubmitters() {
         return $this->hasMany(GameSubmitter::class, 'user_id', 'id');
     }

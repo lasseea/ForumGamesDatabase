@@ -12,9 +12,6 @@
 */
 
 Route::get('/', function () {
-    $user = \App\Models\User::find(1);
-    $community = \App\Models\Community::find(1);
-    dd($user->isPartOfCommunity($community));
     return view('welcome');
 });
 

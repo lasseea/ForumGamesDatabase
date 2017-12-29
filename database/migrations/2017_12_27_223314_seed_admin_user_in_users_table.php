@@ -21,13 +21,13 @@ class SeedAdminUserInUsersTable extends Migration
                 'password'  => bcrypt(env('ADMIN_PASS')),
             ]
         );
-        $adminRoleID = (int) DB::table('user_roles')
-            ->where('name', '=', 'Admin')
+        $adminRoleID = (int) DB::table('roles')
+            ->where('name', '=', env('ADMIN_ROLE_NAME'))
             ->pluck('id')
             ->first();
 
-        DB::table('user_role_relations')->insert(
-            ['user_id' => $adminUserID, 'user_role_id' => $adminRoleID]
+        DB::table('role_user')->insert(
+            ['user_id' => $adminUserID, 'role_id' => $adminRoleID]
         );
     }
 

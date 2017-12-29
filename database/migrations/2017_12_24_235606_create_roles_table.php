@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class SeedUserRolesTable extends Migration
+class CreateRolesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class SeedUserRolesTable extends Migration
      */
     public function up()
     {
-        $userRoles = [
-            ['name' => 'Admin'],
-            ['name' => 'Contributor']
-        ];
-
-        DB::table('user_roles')->insert($userRoles);
+        Schema::create('roles', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name')->unique();
+            $table->timestamps();
+        });
     }
 
     /**
@@ -28,6 +27,6 @@ class SeedUserRolesTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('roles');
     }
 }

@@ -10,7 +10,8 @@ class GameModificationType extends Model
         'name', 'description'
     ];
 
-    public function gameModifications() {
-        return $this->hasMany(GameModification::class, 'game_modification_id', 'id');
+    /** Games with this modification type */
+    public function games() {
+        return $this->belongsToMany(Game::class, 'game_modifications');
     }
 }

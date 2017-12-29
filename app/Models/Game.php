@@ -28,16 +28,19 @@ class Game extends Model
         return $this->belongsTo(GameType::class, 'game_type_id', 'id');
     }
 
-    public function gameModifications() {
-        return $this->hasMany(GameModification::class, 'game_id', 'id');
+    /** modification types used in game */
+    public function gameModificationTypes() {
+        return $this->belongsToMany(GameModificationType::class, 'game_modifications');
     }
 
+    /** users who have been part of submitting(inserting) game to database */
     public function gameSubmitters() {
-        return $this->hasMany(GameSubmitter::class, 'game_id', 'id');
+        return $this->belongsToMany(User::class, 'game_submitters');
     }
 
+    /** users who have been part of updating game in database */
     public function gameUpdaters() {
-        return $this->hasMany(GameUpdater::class, 'game_id', 'id');
+        return $this->belongsToMany(User::class, 'game_updaters');
     }
 
     public function hosts() {

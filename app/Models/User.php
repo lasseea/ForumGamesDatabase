@@ -27,6 +27,14 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function isAdmin() : bool {
+        return $this->roles()->where('name', '=', config('admin.admin_role_name'))->exists();
+    }
+
+    public function isPartOfCommunity(Community $community) : bool {
+        return (bool) $this->communities()->find($community->getAttributeValue('id'));
+    }
+
     /**
      * @param String $password
      */
@@ -34,19 +42,22 @@ class User extends Authenticatable
         $this->attributes['password'] = bcrypt($password);
     }
 
-    public function gameSubmitters() {
-        return $this->hasMany(GameSubmitter::class, 'user_id', 'id');
+    /** games that the user has been part of submitting(inserting) */
+    public function submittedGames() {
+        return $this->belongsToMany(Game::class, 'game_submitters');
     }
 
-    public function gameUpdaters() {
-        return $this->hasMany(GameUpdater::class, 'user_id', 'id');
+    /** games that the user has been part of updating */
+    public function updatedGames() {
+        return $this->belongsToMany(Game::class, 'game_updaters');
     }
 
-    public function userCommunityPermissions() {
-        return $this->hasMany(UserCommunityPermission::class, 'user_id', 'id');
+    /** communities that the user belongs to */
+    public function communities() {
+        return $this->belongsToMany(Community::class, 'user_community_permissions');
     }
 
-    public function userRoleRelations() {
-        return $this->hasMany(UserRoleRelation::class, 'user_id', 'id');
+    public function roles() {
+        return $this->belongsToMany(Role::class);
     }
 }

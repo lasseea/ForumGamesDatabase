@@ -12,9 +12,12 @@
 */
 
 Route::get('/', function () {
+    $user = \App\Models\User::find(1);
+    $community = \App\Models\Community::find(1);
+    dd($user->isPartOfCommunity($community));
     return view('welcome');
 });
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home')->middleware('admin');
